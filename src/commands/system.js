@@ -86,6 +86,10 @@ bot.on("message", async (msg) => {
 					{
 						name: `${prefix}game`,
 						value: "Returns a random game that the server plays",
+					},
+					{
+						name: `${prefix}gta-car <car_type> <command>`,
+						value: `Type \`${prefix}gta-car\` for more information`,
 					}
 				)
 		);
