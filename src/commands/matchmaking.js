@@ -1,7 +1,7 @@
-const {bot, prefix, db} = require("../tds_bot");
-const stringTable = require("string-table");
+const {bot, prefix, databaseConfig} = require("../tds_bot");
+const Database = require("../Database");
 
-bot.on("message", (msg) => {
+bot.on("message", async (msg) => {
 	if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 	const args = msg.content.slice(prefix.length).trim().split(" ");
 	const command = args.shift().toLowerCase();
@@ -18,10 +18,12 @@ bot.on("message", (msg) => {
 	}
 
 	if (command === "game") {
+		const db = await new Database(databaseConfig);
 		const sql = "SELECT name FROM games ORDER BY RAND() LIMIT 1";
-		db.query(sql, (err, res) => {
-			if (err) throw err;
-			msg.channel.send(res[0].name);
-		});
+		const result = await db
+			.query(sql, null)
+			.catch((err) => console.log(err));
+		msg.channel.send(result[0].name);
+		await db.close();
 	}
 });

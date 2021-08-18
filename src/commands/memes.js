@@ -1,5 +1,5 @@
 //https://api.imgflip.com/get_memes
-const {bot, prefix, db} = require("../tds_bot");
+const {bot, prefix} = require("../tds_bot");
 const stringTable = require("string-table");
 const Discord = require("discord.js");
 const fetch = require("node-fetch");

@@ -1,5 +1,4 @@
 require("dotenv").config();
-const mysql = require("mysql");
 const fs = require("fs");
 const path = require("path");
 const Discord = require("discord.js");
@@ -9,16 +8,12 @@ const MODULES = ["commands"];
 
 const prefix = ".";
 
-const con = mysql.createConnection({
+const databaseConfig = {
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
 	password: process.env.DB_PASS,
 	database: process.env.DB_NAME,
-});
-con.connect((err) => {
-	if (err) throw err;
-	console.log("Connected to database!");
-});
+};
 
 bot.login(process.env.TOKEN);
 
@@ -48,4 +43,4 @@ bot.on("ready", () => {
 
 module.exports.bot = bot;
 module.exports.prefix = prefix;
-module.exports.db = con;
+module.exports.databaseConfig = databaseConfig;
