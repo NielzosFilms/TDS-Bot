@@ -49,10 +49,10 @@ bot.on("message", async (msg) => {
 			let sql = "";
 
 			if (carCommand === "ls") {
-				sql = `SELECT name,rank FROM ${carType} ORDER BY ${sqlOrder} ASC`;
+				sql = `SELECT name,rank FROM ${carType} ORDER BY ${sqlOrder} ASC, name ASC`;
 				if (args[2]) {
 					const subclass = args[2].toUpperCase();
-					sql = `SELECT rank FROM ${carType} GROUP BY rank ORDER BY ${sqlOrder} ASC`;
+					sql = `SELECT rank FROM ${carType} GROUP BY rank ORDER BY ${sqlOrder} ASC, name ASC`;
 					const subclassesResult = await db
 						.query(sql, null)
 						.catch((err) => {
@@ -126,7 +126,7 @@ bot.on("message", async (msg) => {
 					);
 				}
 			} else if (carCommand === "subclasses") {
-				sql = `SELECT rank,COUNT(rank) FROM ${carType} GROUP BY rank ORDER BY ${sqlOrder} ASC`;
+				sql = `SELECT rank,COUNT(rank) FROM ${carType} GROUP BY rank ORDER BY ${sqlOrder} ASC, name ASC`;
 				const ranksResult = await db.query(sql, null).catch((err) => {
 					console.log(err);
 					throw err;
@@ -158,7 +158,7 @@ bot.on("message", async (msg) => {
 						)
 				);
 			} else if (carCommand === "rand-subclass") {
-				sql = `SELECT rank FROM ${carType} GROUP BY rank ORDER BY ${sqlOrder} ASC`;
+				sql = `SELECT rank FROM ${carType} GROUP BY rank ORDER BY ${sqlOrder} ASC, name ASC`;
 				const ranksResult = await db.query(sql, null).catch((err) => {
 					console.log(err);
 					throw err;
