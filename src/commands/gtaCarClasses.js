@@ -5,7 +5,7 @@ const logoUrl = "https://avatars.githubusercontent.com/u/60883770?v=4";
 
 const carTypes = ["sports", "sports_classic", "supers", "off_road"];
 
-const sqlOrder = `case when rank = 'A+' then 1
+const sqlOrder = `case when rank = 'S' then 1
     when rank = 'A' then 2
     when rank = 'B' then 3
     when rank = 'C' then 4
