@@ -73,7 +73,6 @@ bot.on("message", async (msg) => {
 								console.log(err);
 								throw err;
 							});
-						console.log(carsResult);
 						const cars = [];
 						for (const row of carsResult) {
 							cars.push(row.name);
