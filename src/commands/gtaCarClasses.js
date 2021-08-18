@@ -201,28 +201,34 @@ bot.on("message", async (msg) => {
 						throw err;
 					});
 					const cars = {};
-					for (const row of carResult) {
-						if (!cars[row.rank]) cars[row.rank] = [];
-						cars[row.rank].push(row.name);
+					if (carResult.length > 0) {
+						for (const row of carResult) {
+							if (!cars[row.rank]) cars[row.rank] = [];
+							cars[row.rank].push(row.name);
+						}
+						msg.channel.send(
+							new Discord.MessageEmbed()
+								.setColor("#21c4ff")
+								.setTitle(formatTitle(carType))
+								.setAuthor(
+									"NielzosFilms",
+									logoUrl,
+									"https://github.com/NielzosFilms"
+								)
+								.addFields(
+									Object.keys(cars).map((subclass) => {
+										return {
+											name: subclass,
+											value: cars[subclass].join("\n"),
+										};
+									})
+								)
+						);
+					} else {
+						msg.channel.send(
+							`No cars found with the name "${carName}"`
+						);
 					}
-					msg.channel.send(
-						new Discord.MessageEmbed()
-							.setColor("#21c4ff")
-							.setTitle(formatTitle(carType))
-							.setAuthor(
-								"NielzosFilms",
-								logoUrl,
-								"https://github.com/NielzosFilms"
-							)
-							.addFields(
-								Object.keys(cars).map((subclass) => {
-									return {
-										name: subclass,
-										value: cars[subclass].join("\n"),
-									};
-								})
-							)
-					);
 				} else {
 					throw "No car name given";
 				}
