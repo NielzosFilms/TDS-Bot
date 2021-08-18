@@ -192,6 +192,40 @@ bot.on("message", async (msg) => {
 							value: cars.join("\n"),
 						})
 				);
+			} else if (carCommand === "find-car") {
+				if (args[2]) {
+					const carName = args[2].toLowerCase();
+					sql = `SELECT name,rank FROM ${carType} WHERE name LIKE '%${carName}%' ORDER BY ${sqlOrder} ASC, name ASC`;
+					const carResult = await db.query(sql, null).catch((err) => {
+						console.log(err);
+						throw err;
+					});
+					const cars = {};
+					for (const row of carResult) {
+						if (!cars[row.rank]) cars[row.rank] = [];
+						cars[row.rank].push(row.name);
+					}
+					msg.channel.send(
+						new Discord.MessageEmbed()
+							.setColor("#21c4ff")
+							.setTitle(formatTitle(carType))
+							.setAuthor(
+								"NielzosFilms",
+								logoUrl,
+								"https://github.com/NielzosFilms"
+							)
+							.addFields(
+								Object.keys(cars).map((subclass) => {
+									return {
+										name: subclass,
+										value: cars[subclass].join("\n"),
+									};
+								})
+							)
+					);
+				} else {
+					throw "No car name given";
+				}
 			} else {
 				throw `Unknown command: \`${carCommand}\``;
 			}
@@ -217,7 +251,7 @@ bot.on("message", async (msg) => {
 						},
 						{
 							name: "Commands",
-							value: "`ls` list all cars\n`subclasses` list all subclasses\n`rand-subclass` list all cars from a random subclass\n`ls <subclass>` list all cars from the given subclass",
+							value: "`ls` list all cars\n`subclasses` list all subclasses\n`rand-subclass` list all cars from a random subclass\n`ls <subclass>` list all cars from the given subclass\n`find-car <carname>` find a car",
 						}
 					)
 			);

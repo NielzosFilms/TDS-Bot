@@ -19,7 +19,10 @@ bot.login(process.env.TOKEN);
 
 bot.on("ready", () => {
 	bot.user.setPresence({
-		activity: {name: `"${prefix}help" for commands`},
+		activity:
+			process.env.NODE_ENV === "production"
+				? {name: `"${prefix}help" for commands`}
+				: {name: `UNDER CONSTRUCTION`},
 		status: "online",
 	});
 	console.log(
